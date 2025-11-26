@@ -112,10 +112,10 @@ The links below give access to talks in PDF format.
 
 The most recent ones come first.
 
-* Narciso Martí-Oliet. [*An introduction to Maude and some of its applications*](:papers/Talk$Maude-padl10-slides.pdf). Invited talk given at PADL 2010.
-* Steven Eker. [Unification in Maude at Protocol eXchange Seminar, Naval Postgraduate School, January 2007](:papers/Talk$Eker-unification.pdf).
-* Artur Boronat. [PhD seminar at University of Leicester](:papers/Talk$Leicester-20071023_Maude.pdf)
-* Narciso Martí-Oliet. [Maude summer course at Rio Cuarto, Argentina](:papers/Talk$Riocuarto-maude.pdf)
+* Narciso Martí-Oliet. [*An introduction to Maude and some of its applications*](:papers/Talk.Maude-padl10-slides.pdf). Invited talk given at PADL 2010.
+* Steven Eker. [Unification in Maude at Protocol eXchange Seminar, Naval Postgraduate School, January 2007](:papers/Talk.Eker-unification.pdf).
+* Artur Boronat. [PhD seminar at University of Leicester](:papers/Talk.Leicester-20071023_Maude.pdf)
+* Narciso Martí-Oliet. [Maude summer course at Rio Cuarto, Argentina](:papers/Talk.Riocuarto-maude.pdf)
     
 ## Roadmap
 
