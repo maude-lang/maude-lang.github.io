@@ -18,11 +18,11 @@ jobs:
 
       - name: Build website
         run: |
-          # wget https://github.com/maude-lang/maude-lang.github.io/releases/download/maude/old-maude-website.tar.xz
+          wget https://github.com/maude-lang/maude-lang.github.io/releases/download/maude/old-maude-website.tar.xz
           mkdir output
-          # tar -xf old-maude-website.tar.xz -C output
+          tar -xf old-maude-website.tar.xz -C output
           pip install -r requirements.txt
-          python generate.py --prefix /maudeweb/ --no-ext
+          python generate.py --prefix / --no-ext
           touch output/.nojekyll
 
       - name: Upload static files as artifact
