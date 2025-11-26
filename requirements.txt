@@ -1,0 +1,7 @@
+Jinja2
+markdown-it-py
+mdit-py-plugins
+latex2mathml
+pybtex
+PyYAML
+pagefind	[bin]

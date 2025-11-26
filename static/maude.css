@@ -1,0 +1,124 @@
+body {
+	background-color: #fefefe;
+	font-family: sans-serif;
+	margin: 0;
+	display: flex;
+	flex-direction: column;
+}
+
+body, html {
+	min-height: 100%;
+	height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+article {
+	position: relative;
+	padding: 0 2em 1em 2em;
+	overflow: scroll;
+	flex-grow: 1;
+}
+
+header {
+	background-color: #eeeeee;
+	display: flex;
+	align-items: center;
+	padding: 1ex;
+}
+
+aside {
+	background-color: #eeeeee;
+	padding: 1ex;
+}
+
+.middle {
+	display: flex;
+	min-height: 0;
+	flex-grow: 1;
+}
+
+#page-title {
+	font-weight: bold;
+	font-size: 160%;
+	color: #000077;
+	margin-left: auto;
+	margin-right: 1ex;
+}
+
+footer {
+	font-size: 80%;
+	padding-right: 1ex;
+	color: teal;
+	text-align: right;
+	border-top: 1px solid #eeeeee;
+}
+
+code {
+  font-family: 'Courier New', ui-monospace, monospace;
+}
+
+p {
+	text-align: justify;
+}
+
+.toc-tree {
+	list-style: none;
+	padding-left: 0;
+	min-width: 10em;
+}
+
+.toc-tree > li {
+	padding: 3pt 3ex 3pt 1ex;
+}
+
+.toc-tree > li:hover {
+	background-color: #dddddd;
+}
+
+.streets {
+	position: absolute;
+	top: 1em;
+	right: 1em;
+}
+
+.external-link {
+}
+
+@media print {
+	aside {
+		display: none;
+	}
+}
+
+@media (max-width: 1000px)
+{
+	.middle {
+		flex-direction: column-reverse;
+	}
+	article {
+		overflow: auto;
+		flex-grow: 1;
+	}
+	body, html {
+		height: initial;
+	}
+	.streets {
+	  position: initial;
+	}
+}
+
+.release-table {
+	border-collapse: collapse;
+}
+
+.release-table td {
+	border: 1px solid gray;
+	padding: 2pt 1ex 2pt 1ex;
+}
+
+.release-table th {
+	text-align: center !important;
+}

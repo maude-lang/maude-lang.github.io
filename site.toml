@@ -1,0 +1,41 @@
+#
+# General settings
+#
+
+release-path = 'https://github.com/maude-lang/maude-lang.github.io/releases/download/{ns}/{name}'
+
+#
+# Table of contents
+#
+
+[[toc]]
+name = 'Home'
+page = 'index'
+
+[[toc]]
+name = 'Get Maude'
+page = 'get-maude'
+
+[[toc]]
+name = 'Overview'
+page = 'overview'
+
+[[toc]]
+name = 'Rewriting logic'
+page = 'rewriting-logic'
+
+[[toc]]
+name = 'Documentation'
+page = 'documentation'
+
+[[toc]]
+name = 'Applications'
+page = 'applications'
+
+[[toc]]
+name = 'Tools'
+page = 'tools'
+
+[[toc]]
+name = 'Publications'
+page = 'publications'

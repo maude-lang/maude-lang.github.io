@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>{{ title }}</title>
+	<meta charset="utf-8"/>
+	<link rel="stylesheet" href="{{ prefix }}maude.css">
+</head>
+<body>
+<header>
+	<img src="{{ prefix }}img/logo.svg" alt="Maude 3 logo">
+	<span id="page-title">{{ title }}</span>
+</header>
+<div class="middle">
+<aside>
+<ul class="toc-tree">
+{% for item in toc %}
+  <li>
+  {% if item['page'] == current %}
+  <b>{{ item['name'] }}</b>
+  {% else %}
+  <a href="{{ make_page_link(item['page']) }}">{{ item['name'] }}</a>
+  {% endif %}
+  </li>
+{% endfor %}
+  <li style="margin-top: 2ex;"><a href="{{ make_page_link('search') }}">🔎 Search</a></li>
+</ul>
+</aside>
+<article>
+{{ content|safe }}
+<footer>
+© 1991-{{ year }} — The Maude Team
+</footer>
+</article>
+</div>
+</body>
+</html>
