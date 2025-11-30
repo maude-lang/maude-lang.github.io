@@ -35,13 +35,13 @@ applying Maude to include:
 * [Manuel Clavel](https://maude.ucm.es/~clavel/), Universidad Complutense de Madrid, Spain (emeritus team member)
 * [Francisco Durán](https://www.lcc.uma.es/~duran), Universidad de Málaga, Spain
 * [Santiago Escobar](https://personales.upv.es/sanesro), Universitat Politècnica de València, Spain
-* [Steven Eker](https://csl.sri.com/people/eker), SRI International, California, USA
-* [Patrick Lincoln](https://csl.sri.com/~lincoln/), SRI International, California, USA (emeritus team member)
+* [Steven Eker](https://www.csl.sri.com/people/eker), SRI International, California, USA
+* [Patrick Lincoln](https://www.csl.sri.com/~lincoln/), SRI International, California, USA (emeritus team member)
 * [Narciso Martí-Oliet](https://www.mat.ucm.es/imi/People/Marti_Oliet_Narciso.htm), Universidad Complutense de Madrid, Spain
-* [José Meseguer](https://formal.cs.uiuc.edu/meseguer/), University of Illinois at Urbana-Champaign, Illinois, USA
+* [José Meseguer](https://formal.cs.illinois.edu/meseguer/), University of Illinois at Urbana-Champaign, Illinois, USA
 * [Peter C. Ölveczky](https://olveczky.se/), University of Oslo, Norway
-* [Rubén Rubio](https://www.ucm.es/dsic-1-1/directorio/?id=31227), Universidad Complutense de Madrid, Spain
-* [Carolyn L. Talcott](https://csl.sri.com/people/talcott/), SRI International, California, USA
+* [Rubén Rubio](https://produccioncientifica.ucm.es/investigadores/157871/detalle?lang=en), Universidad Complutense de Madrid, Spain
+* [Carolyn L. Talcott](https://www.csl.sri.com/people/talcott/), SRI International, California, USA
 
 ## Collaborators
 
@@ -50,4 +50,4 @@ researchers from different countries collaborate closely with the Maude
 team on theoretical foundations, different extensions of Maude, and on
 applications to various areas. Many of these researchers appear as
 coauthors of members of the group in many papers (see the recent
-[rewriting logic bibliography](roadmap.md)).
+[rewriting logic bibliography](publications.md)).

@@ -11,10 +11,10 @@ documentation, and some examples.
 
 Maude 3.5.1 is currently available at [its GitHub site](https://github.com/SRI-CSL/Maude/releases/tag/Maude3.5.1)
 for the following platforms:
-* [Linux x86_64](https://github.com/maude-lang/Maude/releases/download/Maude3.5.1/Maude-3.5.1-linux-x86_64.zip)
-* [macOS x64_64](https://github.com/maude-lang/Maude/releases/download/Maude3.5.1/Maude-3.5.1-macos-x86_64.zip)
-* [macOS ARM](https://github.com/maude-lang/Maude/releases/download/Maude3.5.1/Maude-3.5.1-macos-arm64.zip)
-* [Source code](https://github.com/maude-lang/Maude/archive/refs/tags/Maude3.5.1.tar.gz)
+* 🐧 [Linux x86_64](https://github.com/maude-lang/Maude/releases/download/Maude3.5.1/Maude-3.5.1-linux-x86_64.zip)
+* 🍏 [macOS x64_64](https://github.com/maude-lang/Maude/releases/download/Maude3.5.1/Maude-3.5.1-macos-x86_64.zip)
+* 🍎 [macOS ARM](https://github.com/maude-lang/Maude/releases/download/Maude3.5.1/Maude-3.5.1-macos-arm64.zip)
+* 📦 [Source code](https://github.com/maude-lang/Maude/archive/refs/tags/Maude3.5.1.tar.gz)
 
 Some Linux distributions also offer Maude in
 their official repositories
