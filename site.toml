@@ -4,6 +4,15 @@
 
 release-path = 'https://github.com/maude-lang/maude-lang.github.io/releases/download/{ns}/{name}'
 
+[[other-indexed-files]]
+name = 'Maude manual'
+root = 'manual'
+blacklist = ['index.html', 'maude-manual-2.html', 'maude-manualli1.html', 'maude-manualli4.html']
+
+[[other-indexed-files]]
+name = 'Old Maude 1 website'
+root = 'maude1'
+
 #
 # Table of contents
 #

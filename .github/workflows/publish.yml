@@ -19,8 +19,10 @@ jobs:
       - name: Build website
         run: |
           wget https://github.com/maude-lang/maude-lang.github.io/releases/download/maude/old-maude-website.tar.xz
-          mkdir output
+          wget https://github.com/maude-lang/maude-lang.github.io/releases/download/maude/maude-manual-html.tar.xz
+          mkdir -p output/manual
           tar -xf old-maude-website.tar.xz -C output
+          tar -xf maude-manual-html.tar.xz -C output/manual
           pip install -r requirements.txt
           python generate.py --prefix / --no-ext
           touch output/.nojekyll
