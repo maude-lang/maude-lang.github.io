@@ -1,0 +1,218 @@
+--- Bounded Retransmission Protocol
+
+--- This example is from the following paper:
+---  J. Meseguer, M. Palomino and N. Marti-Oliet, Equational abstraction, In: Procs. of CADE'03, LNCS, Springer (2003)
+
+fmod DATA is 
+    sorts Sender Receiver . 
+    sort Label . 
+    sorts Msg MsgL . 
+    subsort Msg < MsgL .
+
+    ops 0s 1s 2s 3s 4s 5s 6s 7s : -> Sender [ctor] . 
+    ops 0r 1r 2r 3r 4r : -> Receiver [ctor] .
+
+    ops none req snok sok sdnk rfst rnok rinc rok : -> Label [ctor] .
+
+    ops 0 1 fst last : -> Msg [ctor] . 
+    op nil : -> MsgL [ctor] . 
+    op _;_ : MsgL MsgL -> MsgL [ctor assoc id: nil] .
+endfm
+
+mod BRP is
+    protecting DATA .
+
+    sort Conf .
+
+    op <_,_,_,_,_,_,_> : 
+	Sender Bool MsgL MsgL Receiver Bool Label -> Conf [ctor] . 
+    op initial : -> Conf .
+
+    var S : Sender . 
+    var R : Receiver . 
+    var M : Msg . 
+    vars K L KL : MsgL . 
+    vars A RT : Bool . 
+    var LA : Label .
+
+    eq initial = <  0s, false, nil, nil, 0r, false, none > .
+
+    rl [REQ] : < 0s, A, nil, nil, R, false, LA > => 
+	       < 1s, false, nil, nil, R, false, req > . 
+    rl [K!fst] : < 1s, A, K, L, R, RT, LA > =>
+		 < 2s, A, K ; fst, L, R, RT, none > .
+    rl [K!fst] : < 2s, A, K, L, R, RT, LA > =>
+		 < 2s, A, K ; fst, L, R, RT, none > .
+    rl [L?fst] : < 2s, A, K, fst ; L, R, RT, LA > =>
+		 < 3s, A, K, L, R, RT, none > .
+    crl [L?-fst] : < 2s, A, K, M ; L, R, RT, LA > =>
+		   < 2s, A, K, L, R, RT, none > if M =/= fst .
+    rl [K!0] : < 3s, A, K, L, R, RT, LA > => 
+               < 4s, A, K ; 0, L, R, RT, none > .
+    rl [K!last] : < 3s, A, K, L, R, RT, LA > => 
+		  < 7s, A, K ; last, L, R, RT, none > .
+    rl [K!0] : < 4s, A, K, L, R, RT, LA > =>
+	       < 4s, A, K ; 0, L, R, RT, none > .
+    crl [L?-0] : < 4s, A, K, M ; L, R, RT, LA > =>
+		 < 4s, A, K, L, R, RT, none > if M =/= 0 .
+    rl [L?0] : < 4s, A, K, 0 ; L, R, RT, LA > =>
+	       < 5s, A, K, L, R, RT, none > .
+    rl [SNOK] : < 4s, A, K, nil, R, RT, LA > => 
+	        < 0s, true, K, nil, R, RT, snok > .
+    rl [K!1] : < 5s, A, K, L, R, RT, LA > => 
+	       < 6s, A, K ; 1, L, R, RT, none > .
+    rl [K!last] : < 5s, A, K, L, R, RT, LA > => 
+		  < 7s, A, K ; last, L, R, RT, none > .
+    rl [K!1] : < 6s, A, K, L, R, RT, LA > => 
+	       < 6s, A, K ; 1, L, R, RT, none > .
+    crl [L?-1] : < 6s, A, K, M ; L, R, RT, LA > => 
+		 < 6s, A, K, L, R, RT, none > if M =/= 1 .
+    rl [L?1] : < 6s, A, K, 1 ; L, R, RT, LA > =>
+	       < 3s, A, K, L, R, RT, none > .	    --- FIXED (missing)
+    rl [SNOK] : < 6s, A, K, nil, R, RT, LA > => 
+		< 0s, true, K, nil, R, RT, snok > .
+    rl [K!last] : < 7s, A, K, L, R, RT, LA > => 
+		< 7s, A, K ; last, L, R, RT, none > . 
+    crl [L?-last] : < 7s, A, K, M ; L, R, RT, LA > => 
+		    < 7s, A, K, L, R, RT, none > if M =/= last .
+    rl [SOK] : < 7s, A, K, last ; L, R, RT, LA > => 
+	       < 0s, A, K, L, R, RT, sok > .
+    rl [SDNK] : < 7s, A, K, nil, R, RT, LA > => 
+		< 0s, true, K, nil, R, RT, sdnk > .
+
+    rl [RFST] : < S, false, fst ; K, L, 0r, RT, LA > => 
+	        < S, false, K, L ; fst, 1r, true, rfst > .
+    rl [K?fstL!fst] : < S, A, fst ; K, L, 1r, RT, LA > =>
+		      < S, A, K, L ; fst, 1r, RT, none > .
+    rl [RNOK] : < S, true, nil, L, 1r, RT, LA > => 
+		< S, true, nil, L, 0r, false, rnok > .	--- FIXED (1r -> 0r)
+    rl [RINC] : < S, false, 0 ; K, L, 1r, RT, LA > =>
+		< S, false, K, L ; 0, 2r, RT, rinc > .
+    rl [ROK] : < S, false, last ; K, L, 1r, RT, LA > =>
+	       < S, false, K, L ; last, 4r, RT, rok > .
+    rl [K?0L!0] : < S, A, 0 ; K, L, 2r, RT, LA > => 
+		  < S, A, K, L ; 0, 2r, RT, none > .
+    rl [RINC] : < S, false, 1 ; K, L, 2r, RT, LA > =>
+		< S, false, K, L ; 1, 3r, true, rinc > .
+    rl [RNOK] : < S, true, nil, L, 2r, RT, LA > =>
+		< S, true, nil, L, 0r, false, rnok > .
+    rl [ROK] : < S, false, last ; K, L, 2r, RT, LA > => 
+	       < S, false, K, L ; last, 4r, RT, rok > .
+    rl [RINC] : < S, false, 0 ; K, L, 3r, RT, LA > => 
+	        < S, false, K, L ; 0, 2r, RT, rinc > .
+    rl [K?1L!1] : < S, A, 1 ; K, L, 3r, RT, LA > => 
+	          < S, A, K, L ; 1, 3r, RT, none > .
+    rl [ROK] : < S, false, last ; K, L, 3r, RT, LA > => 
+	       < S, false, K, L ; last, 4r, RT, rok > .
+    rl [RNOK] : < S, true, nil, L, 3r, RT, LA > => 
+		< S, true, nil, L, 0r, false, rnok > .
+
+    rl [K?lastL!last] : < S, A, last ; K, L, 4r, RT, LA > => 
+			< S, A, K, L ; last, 4r, RT, none > .
+    rl [empty] : < S, A, last ; K, L, 4r, RT, LA > => 
+		 < S, A, nil, L, 0r, false, none > .
+endm
+
+load model-checker
+
+mod BRP-PREDS is 
+    inc SATISFACTION . 
+    inc BRP .
+
+    subsort Conf < State .
+
+    op tr : Label -> Prop [ctor] .
+
+    var S : Sender . var R : Receiver . var M : Msg .	
+    vars K L : MsgL . vars A RT : Bool . vars LA : Label .
+
+    eq (< S, A, K, L, R, RT, LA > |= tr(LA)) = true . 
+endm
+
+mod BRP-ABSTRACTION is
+    inc BRP .
+
+    var S : Sender . var R : Receiver . var M : Msg .	
+    vars K L KL : MsgL . vars A RT : Bool . vars LA : Label .
+
+    --- abstraction
+    eq < S, A, KL ; M ; M ; K, L, R, RT, LA > 
+     = < S, A, KL ; M ; K, L, R, RT, LA > .
+    eq < S, A, K, KL ; M ; M ; L, R, RT, LA >
+     = < S, A, K, KL ; M ; L, R, RT, LA > .
+
+    --- deadrock 
+    rl   < S, A, KL ; M ; K, L, R, RT, LA >
+      => < S, A, KL ; M ; K, L, R, RT, LA > .
+    rl [deadlock] : < 0s, A, KL ; M ; K, L, R, RT, LA >
+		 => < 0s, A, KL ; M ; K, L, R, RT, LA > .
+    rl [deadlock] : < 0s, A, K, KL ; M ; L, R, RT, LA >
+		 => < 0s, A, K, KL ; M ; L, R, RT, LA > .
+
+    --- coherence completion
+    crl [L?-fst’] : < 2s, A, K, M ; L, R, RT, LA > 
+		 => < 2s, A, K, M ; L, R, RT, none > if M =/= fst . 
+    crl [L?-0’] : < 4s, A, K, M ; L, R, RT, LA > 
+	       => < 4s, A, K, M ; L, R, RT, none > if M =/= 0 .
+    rl [L?0’] : < 4s, A, K, 0 ; L, R, RT, LA > 
+             => < 5s, A, K, 0 ; L, R, RT, none > . 
+    crl [L?-1] : < 6s, A, K, M ; L, R, RT, LA > 
+             => < 6s, A, K, M ; L, R, RT, none > if M =/= 1 . 
+    rl [L?1] : < 6s, A, K, 1 ; L, R, RT, LA > =>
+	       < 3s, A, K, 1 ; L, R, RT, none > .	    --- FIXED (missing)
+    crl [L?-last] : < 7s, A, K, M ; L, R, RT, LA > 
+                 => < 7s, A, K, M ; L, R, RT, none > if M =/= last . 
+    rl [SOK] : < 7s, A, K, last ; L, R, RT, LA > 
+            => < 0s, A, K, last ; L, R, RT, sok > . 
+    rl [RFST’] : < S, false, fst ; K, L, 0r, RT, LA > 
+              => < S, false, fst ; K, L ; fst, 1r, true, rfst > .
+    rl [K?fstL!fst’] : < S, A, fst ; K, L, 1r, RT, LA > 
+		    => < S, A, fst ; K, L ; fst, 1r, RT, none > .
+    rl [RINC’] : < S, false, 0 ; K, L, 1r, RT, LA > 
+	      => < S, false, 0 ; K, L ; 0, 2r, RT, rinc > . 
+    rl [ROK’] : < S, false, last ; K, L, 1r, RT, LA > 
+	     => < S, false, last ; K, L ; last, 4r, RT, rok > .
+    rl [K?0L!0’] : < S, A, 0 ; K, L, 2r, RT, LA > 
+		=> < S, A, 0 ; K, L ; 0, 2r, RT, none > . 
+    rl [RINC’] : < S, false, 1 ; K, L, 2r, RT, LA > 
+	      => < S, false, 1 ; K, L ; 1, 3r, true, rinc > .
+    rl [ROK’] : < S, false, last ; K, L, 2r, RT, LA > 
+	     => < S, false, last ; K, L ; last, 4r, RT, rok > .
+    rl [RINC’] : < S, false, 0 ; K, L, 3r, RT, LA > 
+	      => < S, false, 0 ; K, L ; 0, 2r, RT, rinc > .
+    rl [K?1L!1’] : < S, A, 1 ; K, L, 3r, RT, LA > 
+		=> < S, A, 1 ; K, L ; 1, 3r, RT, none > .
+    rl [ROK’] : < S, false, last ; K, L, 3r, RT, LA > 
+	     => < S, false, last ; K, L ; last, 4r, RT, rok > . 
+    rl [K?lastL!last’] : < S, A, last ; K, L, 4r, RT, LA > 
+		      => < S, A, last ; K, L ; last, 4r, RT, none > .
+endm
+
+mod BRP-CHECK is
+    inc BRP-PREDS .
+    inc BRP-ABSTRACTION .
+    inc MODEL-CHECKER .
+endm
+
+---set verbose on .
+
+red modelCheck(initial, 
+    [] ( tr(req) ->
+	 O (~ tr(req) W (tr(sok) \/ tr(snok) \/ tr(sdnk)) )
+    ) ) .
+
+red modelCheck(initial, 
+    [] ( tr(rfst) -> 
+	 (~ tr(req) W (tr(rok) \/ tr(rnok)))
+    ) ) .
+
+red modelCheck(initial, 
+    [] ( tr(req) -> 
+	 (~ tr(sok) W tr(rok))
+    ) ) .
+
+red modelCheck(initial, 
+    [] ( tr(req) -> 
+	 (~ tr(rnok) W (tr(snok) \/ tr(sdnk)) )
+    ) ) .
+

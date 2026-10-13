@@ -4,8 +4,7 @@ title: Tools
 
 * [NuITP](https://nuitp.webs.upv.es/) - An Inductive Theorem Prover for Maude Specifications
 * [The Maude Formal Environment](https://github.com/maude-team/MFE/wiki) - Environment that integrates the Church-Rosser checker, the coherence checker, and the termination tool
-* [The Maude LTLR Model Checker](https://maude.cs.uiuc.edu/tools/tlr/)
-* [The Maude LTL Logical Model Checker](https://maude.cs.uiuc.edu/tools/lmc/)
+* [The Maude LTLR and LMC Model Checkers](https://github.com/kquine/maude-model-checker)
 * [umaudemc](https://github.com/fadoss/umaudemc) - A unified tool to check Maude specifications using external qualitative, probabilistic, and stochastical model checkers
 * [PVeStA](https://maude.cs.uiuc.edu/tools/pvesta/index.html) - A Parallel Statistical Model Checking and Quantitative Analysis Tool
 * [MultiVeStA](https://github.com/andrea-vandin/MultiVeStA) - A Distributed Statistical Model Checking for Discrete Event Simulators

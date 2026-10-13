@@ -153,18 +153,18 @@ class SiteGenerator:
 			return self.current_prefix
 
 		return f'{self.current_prefix}{path}{HTML_EXTENSION if self.use_extension else ""}'
-
+	
 	def make_resource_link(self, ns, name):
 		"""Make a link to a resource"""
 
 		return self.config.get('release-path', 'missing').format(ns=ns, name=name)
-
+	
 	async def index_site(self, generated_files):
 		"""Index the website for search"""
 
 		from pagefind.index import PagefindIndex, IndexConfig
 
-		index_config = IndexConfig(output_path=str(self.output_path / 'pagefind'), force_language='en-us')
+		index_config = IndexConfig(output_path=str(self.output_path / 'pagefind'))
 
 		# Pagefind seems to add the prefix, so we do not do it again
 		real_prefix, self.current_prefix = self.current_prefix, ''
@@ -173,7 +173,6 @@ class SiteGenerator:
 			# Index each generated file
 			for file in generated_files:
 				content = file.read_text()
-				content = content.replace('<body>', f'<body data-pagefind-filter="section:Maude website">')
 				url = file.relative_to(self.output_path)
 
 				await index.add_html_file(
@@ -182,25 +181,6 @@ class SiteGenerator:
 					source_path=str(url),
 				)
 
-			# Other indexed files
-			for category in self.config.get('other-indexed-files', ()):
-				category_name = category['name']
-				blacklist = frozenset(category.get('blacklist', ()))
-
-				for file in (self.output_path / category['root']).rglob('*.html'):
-					if file.name in blacklist:
-						continue
-
-					content = file.read_text()
-					content = content.replace('<body>', f'<body data-pagefind-filter="section:{category_name}">')
-					url = file.relative_to(self.output_path)
-
-					await index.add_html_file(
-						content=content,
-						url=f'/{url}'.replace('index.html', ''),
-						source_path=str(url),
-					)
-
 		self.current_prefix = real_prefix
 
 	def generate(self):
@@ -208,6 +188,17 @@ class SiteGenerator:
 
 		# Copy static files
 		sync_to(Path('static'), self.output_path)
+
+		# Copy non-Markdown page assets (examples, manuals, etc.)
+		for asset in SOURCE.rglob('*'):
+			if not asset.is_file() or asset.suffix == '.md':
+				continue
+
+			target = self.output_path / asset.relative_to(SOURCE)
+			target.parent.mkdir(parents=True, exist_ok=True)
+
+			if not target.exists() or asset.stat().st_mtime > target.stat().st_mtime:
+				shutil.copy(asset, target)
 
 		# Load bibliography
 		# for source in self.config.get('bibliography', ()):
